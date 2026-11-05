@@ -39,19 +39,19 @@ dialog p{font-family:'Caveat',cursive;color:#fff;font-size:1.8rem;text-align:cen
 @keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
 header,nav,.bar,.wall{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.petals{display:none}}
-</style><style>#login{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center}#login form{background:var(--card);padding:28px;border-radius:12px;box-shadow:0 10px 30px var(--shadow);width:min(92vw,340px);text-align:center}#login input{width:100%;margin:8px 0;padding:10px;border:1px solid var(--rose);border-radius:8px;font:inherit;background:transparent;color:var(--ink)}#login button{font:inherit;background:var(--rose);color:#fff;border:0;border-radius:999px;padding:10px 24px;cursor:pointer;margin-top:8px}#err{color:var(--rose);min-height:1.2em}#out{position:fixed;right:12px;top:calc(8px + env(safe-area-inset-top,0px));z-index:5;font:inherit;background:none;border:0;color:var(--rose);cursor:pointer}</style>
+</style><style>#login{position:fixed;inset:0;z-index:50;background:var(--bg);display:none;align-items:center;justify-content:center}#login form{background:var(--card);padding:28px;border-radius:12px;box-shadow:0 10px 30px var(--shadow);width:min(92vw,340px);text-align:center}#login input{width:100%;margin:8px 0;padding:10px;border:1px solid var(--rose);border-radius:8px;font:inherit;background:transparent;color:var(--ink)}#login button{font:inherit;background:var(--rose);color:#fff;border:0;border-radius:999px;padding:10px 24px;cursor:pointer;margin-top:8px}#err{color:var(--rose);min-height:1.2em}#out{position:fixed;right:12px;top:calc(8px + env(safe-area-inset-top,0px));z-index:5;font:inherit;background:none;border:0;color:var(--rose);cursor:pointer}</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 </head><body>
 <div class="petals" id="petals"></div>
 <header><h1>Our <em>Little World</em></h1><p class="sub">Me, my love, and our daughters</p><span class="heart"></span></header>
 <nav id="nav"></nav>
-<div class="bar"><label class="add">＋ Add photos<input id="file" type="file" accept="image/*" multiple hidden></label></div>
+<div class="bar" id="bar" style="display:none"><label class="add">＋ Add photos<input id="file" type="file" accept="image/*" multiple hidden></label></div>
 <main class="wall" id="wall"></main>
 <dialog id="dlg"><img id="big" alt=""><p id="bigcap"></p></dialog>
-<div id="login"><form id="lf"><h2>Our Little World ♥</h2><p>Family login</p><input id="em" type="email" placeholder="Email" required><input id="pw" type="password" placeholder="Password" required><div id="err"></div><button>Enter</button></form></div><button id="out" hidden>Log out</button>
+<div id="login"><form id="lf"><h2>Our Little World ♥</h2><p>Family login</p><input id="em" type="email" placeholder="Email" required><input id="pw" type="password" placeholder="Password" required><div id="err"></div><button>Enter</button> <button type="button" id="cl" style="background:none;color:var(--rose)">Cancel</button></form></div><button id="out">Family login</button>
 <script>
 var SUPABASE_URL="https://wibbgoxwdnjsicdtwsag.supabase.co",SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpYmJnb3h3ZG5qc2ljZHR3c2FnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4NTU5MzAsImV4cCI6MjEwOTQzMTkzMH0.KK2K7PVhcCK8EJeWl2lT_mtdkGWDIm5VITWx-1zvYIc";
-var sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY),ALBUMS=["All","Us Two","My Wife","Our Daughters","Family"],cur="All";
+var authed=false,sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY),ALBUMS=["All","Us Two","My Wife","Our Daughters","Family"],cur="All";
 function $(i){return document.getElementById(i)}
 function shrink(f){return new Promise(function(res){var r=new FileReader();r.onload=function(){var i=new Image();i.onload=function(){var s=Math.min(1,1600/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(res,"image/jpeg",.85)};i.src=r.result};r.readAsDataURL(f)})}
 function nav(){var n=$("nav");n.innerHTML="";ALBUMS.forEach(function(a){var b=document.createElement("button");b.textContent=a;if(a===cur)b.className="on";b.onclick=function(){cur=a;nav();render()};n.appendChild(b)})}
@@ -59,18 +59,19 @@ async function render(){var w=$("wall"),q=sb.from("photos").select("*").order("c
 var r=await q;w.innerHTML="";if(r.error){w.innerHTML='<div class="empty">Could not load photos.</div>';return}
 var rows=r.data;if(!rows.length){w.innerHTML='<div class="empty">No memories here yet — tap “Add photos” to pin the first one ♥</div>';return}
 var s=await sb.storage.from("photos").createSignedUrls(rows.map(function(p){return p.path}),3600),urls={};(s.data||[]).forEach(function(u){urls[u.path]=u.signedUrl});
-rows.forEach(function(p){var d=document.createElement("div");d.className="pol";d.innerHTML='<span class="tag"></span><button class="x" title="Remove">×</button><img alt=""><div class="cap"></div>';d.querySelector("img").src=urls[p.path]||"";d.querySelector(".cap").textContent=p.caption||"";
+rows.forEach(function(p){var d=document.createElement("div");d.className="pol";d.innerHTML='<span class="tag"></span>'+(authed?'<button class="x" title="Remove">×</button>':'')+'<img alt=""><div class="cap"></div>';d.querySelector("img").src=urls[p.path]||"";d.querySelector(".cap").textContent=p.caption||"";
 d.onclick=function(){$("big").src=urls[p.path];$("bigcap").textContent=p.caption||"";$("dlg").showModal()};
-d.querySelector(".x").onclick=async function(e){e.stopPropagation();if(confirm("Remove this photo for everyone?")){await sb.storage.from("photos").remove([p.path]);await sb.from("photos").delete().eq("id",p.id);render()}};w.appendChild(d)})}
+var x=d.querySelector(".x");if(x)x.onclick=async function(e){e.stopPropagation();if(confirm("Remove this photo for everyone?")){await sb.storage.from("photos").remove([p.path]);await sb.from("photos").delete().eq("id",p.id);render()}};if(authed&&!p.is_public)d.querySelector(".cap").textContent="🔒 "+(p.caption||"Family only");w.appendChild(d)})}
 $("dlg").onclick=function(){this.close()};
-$("file").onchange=async function(e){var fs=[].slice.call(e.target.files),a=cur==="All"?"Family":cur;
+$("file").onchange=async function(e){var fs=[].slice.call(e.target.files),a=cur==="All"?"Family":cur,pub=confirm("Show these photos to the PUBLIC?\n\nOK = Public (anyone can see)\nCancel = Family only (login required)");
 for(var i=0;i<fs.length;i++){var c=prompt("Caption for "+fs[i].name+" (optional)","")||"",b=await shrink(fs[i]),path=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+i)+".jpg";
 var u=await sb.storage.from("photos").upload(path,b,{contentType:"image/jpeg"});if(u.error){alert("Upload failed: "+u.error.message);continue}
-await sb.from("photos").insert({path:path,caption:c,album:a})}
+await sb.from("photos").insert({path:path,caption:c,album:a,is_public:pub})}
 e.target.value="";render()};
-function show(on){$("login").style.display=on?"none":"flex";$("out").hidden=!on;if(on){nav();render()}}
+function show(on){authed=on;$("login").style.display="none";$("bar").style.display=on?"block":"none";$("out").textContent=on?"Log out":"Family login";nav();render()}
 $("lf").onsubmit=async function(e){e.preventDefault();var r=await sb.auth.signInWithPassword({email:$("em").value,password:$("pw").value});if(r.error)$("err").textContent="Wrong email or password";else show(true)};
-$("out").onclick=async function(){await sb.auth.signOut();show(false)};
+$("cl").onclick=function(){$("login").style.display="none"};
+$("out").onclick=async function(){if(authed){await sb.auth.signOut();show(false)}else $("login").style.display="flex"};
 (function(){var p=$("petals");for(var i=0;i<14;i++){var s=document.createElement("i");s.textContent="♥";s.style.left=Math.random()*100+"%";s.style.fontSize=10+Math.random()*14+"px";s.style.animationDuration=12+Math.random()*14+"s";s.style.animationDelay=-Math.random()*20+"s";p.appendChild(s)}})();
 sb.auth.getSession().then(function(r){show(!!r.data.session)});
 </script></body></html>
