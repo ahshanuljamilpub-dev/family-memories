@@ -1,77 +1,123 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Our Family Memories</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#d6456b">
+<title>Our Little World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fbf1ea;--ink:#4a2b33;--rose:#c2576b;--gold:#c99a4b;--card:#fffaf6;--shadow:rgba(74,43,51,.25);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1217;--ink:#f6e3e0;--rose:#e58a9b;--gold:#e0b46a;--card:#2c1b22;--shadow:rgba(0,0,0,.6)}}
-:root[data-theme="dark"]{--bg:#1d1217;--ink:#f6e3e0;--rose:#e58a9b;--gold:#e0b46a;--card:#2c1b22;--shadow:rgba(0,0,0,.6)}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:radial-gradient(circle at 20% 0,rgba(194,87,107,.18),transparent 45%),radial-gradient(circle at 90% 30%,rgba(201,154,75,.18),transparent 40%),var(--bg);color:var(--ink);font-family:'Playfair Display',Georgia,serif;min-height:100vh}
-header{text-align:center;padding:44px 16px 10px}
-h1{font-size:clamp(2rem,7vw,3.6rem);margin:0;font-weight:600}
-h1 em{color:var(--rose);font-weight:400}
-.sub{font-family:'Caveat',cursive,sans-serif;font-size:1.5rem;color:var(--gold);margin:6px 0 0}
-.heart{display:block;margin:14px auto 0;width:140px;height:14px;background:linear-gradient(90deg,transparent,var(--gold),transparent);height:1px;position:relative}
-.heart:after{content:"♥";position:absolute;left:50%;top:-12px;transform:translateX(-50%);color:var(--rose);background:var(--bg);padding:0 8px}
-nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:22px 12px 6px}
-nav button,.add{font:inherit;border:1px solid var(--rose);color:var(--rose);background:transparent;border-radius:999px;padding:8px 18px;cursor:pointer;transition:.2s}
-nav button.on,.add{background:var(--rose);color:#fff}
-.add{display:inline-block;font-size:1rem}
-.bar{text-align:center;padding:10px}
-.wall{max-width:1100px;margin:0 auto;padding:20px 14px 70px;display:flex;flex-wrap:wrap;gap:26px;justify-content:center}
-.pol{background:var(--card);padding:12px 12px 14px;width:230px;box-shadow:0 10px 24px var(--shadow);transform:rotate(var(--r));transition:.3s;cursor:pointer;position:relative}
-.pol:nth-child(3n){--r:2.5deg}.pol:nth-child(3n+1){--r:-2deg}.pol:nth-child(3n+2){--r:1deg}
-.pol:hover{transform:rotate(0) scale(1.06) translateY(-4px);z-index:2}
-.pol img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:2px}
-.cap{font-family:'Caveat',cursive,sans-serif;font-size:1.35rem;text-align:center;margin-top:8px;min-height:1.6em}
-.tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-3deg);background:rgba(201,154,75,.55);width:70px;height:20px}
-.pol .x{position:absolute;right:6px;top:4px;border:0;background:none;color:var(--rose);font-size:1.3rem;cursor:pointer;opacity:0}
-.pol:hover .x{opacity:1}
-.empty{text-align:center;font-style:italic;opacity:.7;padding:50px 20px;width:100%}
-dialog{border:0;background:transparent;max-width:92vw;padding:0}
-dialog::backdrop{background:rgba(20,8,12,.85)}
-dialog img{max-width:90vw;max-height:80vh;border:10px solid var(--card);box-shadow:0 20px 60px #000}
-dialog p{font-family:'Caveat',cursive;color:#fff;font-size:1.8rem;text-align:center;margin:8px}
-.petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-.petals i{position:absolute;top:-20px;color:var(--rose);opacity:.35;animation:fall linear infinite}
-@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
-header,nav,.bar,.wall{position:relative;z-index:1}
-@media(prefers-reduced-motion:reduce){.petals{display:none}}
-</style><style>#login{position:fixed;inset:0;z-index:50;background:var(--bg);display:none;align-items:center;justify-content:center}#login form{background:var(--card);padding:28px;border-radius:12px;box-shadow:0 10px 30px var(--shadow);width:min(92vw,340px);text-align:center}#login input{width:100%;margin:8px 0;padding:10px;border:1px solid var(--rose);border-radius:8px;font:inherit;background:transparent;color:var(--ink)}#login button{font:inherit;background:var(--rose);color:#fff;border:0;border-radius:999px;padding:10px 24px;cursor:pointer;margin-top:8px}#err{color:var(--rose);min-height:1.2em}#out{position:fixed;right:12px;top:calc(8px + env(safe-area-inset-top,0px));z-index:5;font:inherit;background:none;border:0;color:var(--rose);cursor:pointer}</style>
+:root{--bg:#faf6f3;--ink:#201a1d;--mute:#7b6f74;--card:#fff;--line:rgba(32,26,29,.1);--a:#d6456b;--b:#f59a78;--glass:rgba(250,246,243,.78);--sh:0 10px 30px rgba(60,20,35,.14)}
+@media(prefers-color-scheme:dark){:root{--bg:#120d10;--ink:#f6ecee;--mute:#a8999f;--card:#1c1418;--line:rgba(255,255,255,.1);--glass:rgba(18,13,16,.75);--sh:0 10px 30px rgba(0,0,0,.5)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Inter,system-ui,sans-serif;min-height:100vh}
+.blobs{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.blobs i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.28}
+.blobs i:nth-child(1){width:420px;height:420px;background:var(--a);top:-120px;left:-100px}
+.blobs i:nth-child(2){width:380px;height:380px;background:var(--b);top:30%;right:-140px}
+.top{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 18px 10px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{font:500 1.15rem Fraunces,Georgia,serif}.brand b{color:var(--a)}
+.pill{font:500 .85rem Inter,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 16px;cursor:pointer}
+.hero{max-width:900px;margin:0 auto;padding:46px 20px 18px;text-align:center}
+h1{font:500 clamp(2.4rem,9vw,4.6rem)/1.05 Fraunces,Georgia,serif;margin:0;letter-spacing:-.02em}
+h1 em{font-style:italic;font-weight:400;background:linear-gradient(120deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mute);margin:12px 0 0;font-size:1.05rem}
+.count{display:inline-block;margin-top:16px;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--a)}
+nav{position:sticky;top:calc(54px + env(safe-area-inset-top,0px));z-index:20;display:flex;gap:8px;overflow-x:auto;padding:12px 18px;scrollbar-width:none;justify-content:center}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:none;font:500 .92rem Inter,sans-serif;white-space:nowrap;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 18px;cursor:pointer;transition:.2s}
+nav button.on{background:linear-gradient(120deg,var(--a),var(--b));color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(214,69,107,.35)}
+@media(max-width:640px){nav{justify-content:flex-start}nav button:first-child{margin-left:auto}nav button:last-child{margin-right:auto}}
+.wall{max-width:1200px;margin:0 auto;padding:14px 14px 130px;columns:2;column-gap:12px}
+@media(min-width:700px){.wall{columns:3;column-gap:16px;padding:18px 24px 130px}}
+@media(min-width:1050px){.wall{columns:4}}
+.ph{position:relative;break-inside:avoid;margin:0 0 12px;border-radius:18px;overflow:hidden;background:var(--card);box-shadow:var(--sh);cursor:zoom-in;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
+@media(min-width:700px){.ph{margin-bottom:16px}}
+.ph.in{opacity:1;transform:none}
+.ph img{display:block;width:100%;height:auto;transition:transform .5s}
+.ph:hover img{transform:scale(1.04)}
+.ov{position:absolute;inset:auto 0 0 0;padding:34px 12px 10px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;font:500 .9rem Inter,sans-serif;opacity:0;transition:.3s}
+.ph:hover .ov,.ph:focus-within .ov{opacity:1}
+@media(hover:none){.ov{opacity:1}}
+.ov:empty{display:none}
+.lk{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;font-size:.7rem;padding:3px 9px;backdrop-filter:blur(6px)}
+.x{position:absolute;top:8px;right:8px;width:30px;height:30px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:1.1rem;line-height:1;cursor:pointer;backdrop-filter:blur(6px)}
+.empty{column-span:all;text-align:center;color:var(--mute);padding:70px 20px}
+.empty big{display:block;font-size:2.4rem;margin-bottom:8px}
+#fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;display:none;align-items:center;gap:8px;border:0;border-radius:999px;padding:15px 24px;font:600 .98rem Inter,sans-serif;color:#fff;background:linear-gradient(120deg,var(--a),var(--b));box-shadow:0 12px 28px rgba(214,69,107,.45);cursor:pointer}
+dialog{border:0;padding:0;color:var(--ink)}
+dialog::backdrop{background:rgba(10,5,8,.6);backdrop-filter:blur(4px)}
+.sheet{background:var(--card);border-radius:22px;padding:26px;width:min(92vw,380px);box-shadow:var(--sh)}
+.sheet h2{font:500 1.5rem Fraunces,serif;margin:0 0 4px}.sheet p{color:var(--mute);margin:0 0 14px;font-size:.92rem}
+.sheet input[type=text],.sheet input[type=email],.sheet input[type=password],.sheet select{width:100%;margin:6px 0;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit;background:transparent;color:var(--ink)}
+.seg{display:flex;gap:6px;margin:8px 0}.seg label{flex:1}.seg input{display:none}
+.seg span{display:block;text-align:center;padding:10px;border:1px solid var(--line);border-radius:12px;font-size:.9rem;cursor:pointer}
+.seg input:checked+span{background:linear-gradient(120deg,var(--a),var(--b));color:#fff;border-color:transparent}
+.row{display:flex;gap:8px;margin-top:14px}
+.btn{flex:1;border:0;border-radius:12px;padding:12px;font:600 .95rem Inter,sans-serif;cursor:pointer;color:#fff;background:linear-gradient(120deg,var(--a),var(--b))}
+.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.err{color:var(--a);min-height:1.2em;font-size:.88rem}
+#lb{width:100vw;height:100vh;max-width:none;max-height:none;background:rgba(8,4,6,.94);margin:0}
+#lb[open]{display:flex;flex-direction:column;align-items:center;justify-content:center}
+#lb img{max-width:94vw;max-height:78vh;border-radius:14px;object-fit:contain}
+#lbc{color:#fff;margin:14px 20px 0;text-align:center;min-height:1.5em}
+.nv{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:1.4rem;cursor:pointer}
+#pv{left:10px}#nx{right:10px}
+#cx{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:1.3rem;cursor:pointer}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 </head><body>
-<div class="petals" id="petals"></div>
-<header><h1>Our <em>Little World</em></h1><p class="sub">Me, my love, and our daughters</p><span class="heart"></span></header>
+<div class="blobs" aria-hidden="true"><i></i><i></i></div>
+<div class="top"><div class="brand">Our <b>♥</b> World</div><button class="pill" id="out">Family login</button></div>
+<header class="hero"><h1>Our <em>Little World</em></h1><p class="sub">Me, my love, and our daughters — the moments we keep.</p><span class="count" id="cnt"></span></header>
 <nav id="nav"></nav>
-<div class="bar" id="bar" style="display:none"><label class="add">＋ Add photos<input id="file" type="file" accept="image/*" multiple hidden></label></div>
 <main class="wall" id="wall"></main>
-<dialog id="dlg"><img id="big" alt=""><p id="bigcap"></p></dialog>
-<div id="login"><form id="lf"><h2>Our Little World ♥</h2><p>Family login</p><input id="em" type="email" placeholder="Email" required><input id="pw" type="password" placeholder="Password" required><div id="err"></div><button>Enter</button> <button type="button" id="cl" style="background:none;color:var(--rose)">Cancel</button></form></div><button id="out">Family login</button>
+<button id="fab"><span style="font-size:1.2rem">＋</span> Add photos</button>
+<input id="file" type="file" accept="image/*" multiple hidden>
+
+<dialog id="lg"><form class="sheet" id="lf"><h2>Family login</h2><p>Sign in to add or remove photos.</p><input id="em" type="email" placeholder="Email" required><input id="pw" type="password" placeholder="Password" required><div class="err" id="err"></div><div class="row"><button type="button" class="btn g" id="lc">Cancel</button><button class="btn">Sign in</button></div></form></dialog>
+
+<dialog id="up"><form class="sheet" id="uf" method="dialog"><h2>Add photos</h2><p id="upn"></p><input type="text" id="cap" placeholder="Caption (optional, applies to all)"><select id="alb"></select>
+<div class="seg"><label><input type="radio" name="v" value="0" checked><span>🔒 Family only</span></label><label><input type="radio" name="v" value="1"><span>🌍 Public</span></label></div>
+<div class="err" id="ue"></div><div class="row"><button type="button" class="btn g" id="uc">Cancel</button><button class="btn" id="ub">Upload</button></div></form></dialog>
+
+<dialog id="lb"><button id="cx" aria-label="Close">×</button><button class="nv" id="pv" aria-label="Previous">‹</button><img id="big" alt=""><div id="lbc"></div><button class="nv" id="nx" aria-label="Next">›</button></dialog>
+
 <script>
 var SUPABASE_URL="https://wibbgoxwdnjsicdtwsag.supabase.co",SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpYmJnb3h3ZG5qc2ljZHR3c2FnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4NTU5MzAsImV4cCI6MjEwOTQzMTkzMH0.KK2K7PVhcCK8EJeWl2lT_mtdkGWDIm5VITWx-1zvYIc";
-var authed=false,sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY),ALBUMS=["All","Us Two","My Wife","Our Daughters","Family"],cur="All";
+var authed=false,sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY),ALBUMS=["Us Two","My Wife","Our Daughters","Family","All"],cur="All",items=[],idx=0,pending=[];
 function $(i){return document.getElementById(i)}
 function shrink(f){return new Promise(function(res){var r=new FileReader();r.onload=function(){var i=new Image();i.onload=function(){var s=Math.min(1,1600/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);c.toBlob(res,"image/jpeg",.85)};i.src=r.result};r.readAsDataURL(f)})}
 function nav(){var n=$("nav");n.innerHTML="";ALBUMS.forEach(function(a){var b=document.createElement("button");b.textContent=a;if(a===cur)b.className="on";b.onclick=function(){cur=a;nav();render()};n.appendChild(b)})}
 async function render(){var w=$("wall"),q=sb.from("photos").select("*").order("created_at",{ascending:false});if(cur!=="All")q=q.eq("album",cur);
-var r=await q;w.innerHTML="";if(r.error){w.innerHTML='<div class="empty">Could not load photos.</div>';return}
-var rows=r.data;if(!rows.length){w.innerHTML='<div class="empty">No memories here yet — tap “Add photos” to pin the first one ♥</div>';return}
-var s=await sb.storage.from("photos").createSignedUrls(rows.map(function(p){return p.path}),3600),urls={};(s.data||[]).forEach(function(u){urls[u.path]=u.signedUrl});
-rows.forEach(function(p){var d=document.createElement("div");d.className="pol";d.innerHTML='<span class="tag"></span>'+(authed?'<button class="x" title="Remove">×</button>':'')+'<img alt=""><div class="cap"></div>';d.querySelector("img").src=urls[p.path]||"";d.querySelector(".cap").textContent=p.caption||"";
-d.onclick=function(){$("big").src=urls[p.path];$("bigcap").textContent=p.caption||"";$("dlg").showModal()};
-var x=d.querySelector(".x");if(x)x.onclick=async function(e){e.stopPropagation();if(confirm("Remove this photo for everyone?")){await sb.storage.from("photos").remove([p.path]);await sb.from("photos").delete().eq("id",p.id);render()}};if(authed&&!p.is_public)d.querySelector(".cap").textContent="🔒 "+(p.caption||"Family only");w.appendChild(d)})}
-$("dlg").onclick=function(){this.close()};
-$("file").onchange=async function(e){var fs=[].slice.call(e.target.files),a=cur==="All"?"Family":cur,pub=confirm("Show these photos to the PUBLIC?\n\nOK = Public (anyone can see)\nCancel = Family only (login required)");
-for(var i=0;i<fs.length;i++){var c=prompt("Caption for "+fs[i].name+" (optional)","")||"",b=await shrink(fs[i]),path=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+i)+".jpg";
-var u=await sb.storage.from("photos").upload(path,b,{contentType:"image/jpeg"});if(u.error){alert("Upload failed: "+u.error.message);continue}
-await sb.from("photos").insert({path:path,caption:c,album:a,is_public:pub})}
-e.target.value="";render()};
-function show(on){authed=on;$("login").style.display="none";$("bar").style.display=on?"block":"none";$("out").textContent=on?"Log out":"Family login";nav();render()}
-$("lf").onsubmit=async function(e){e.preventDefault();var r=await sb.auth.signInWithPassword({email:$("em").value,password:$("pw").value});if(r.error)$("err").textContent="Wrong email or password";else show(true)};
-$("cl").onclick=function(){$("login").style.display="none"};
-$("out").onclick=async function(){if(authed){await sb.auth.signOut();show(false)}else $("login").style.display="flex"};
-(function(){var p=$("petals");for(var i=0;i<14;i++){var s=document.createElement("i");s.textContent="♥";s.style.left=Math.random()*100+"%";s.style.fontSize=10+Math.random()*14+"px";s.style.animationDuration=12+Math.random()*14+"s";s.style.animationDelay=-Math.random()*20+"s";p.appendChild(s)}})();
+var r=await q;w.innerHTML="";items=[];
+if(r.error){w.innerHTML='<div class="empty">Could not load photos.</div>';$("cnt").textContent="";return}
+var rows=r.data;$("cnt").textContent=rows.length+(rows.length===1?" memory":" memories");
+if(!rows.length){w.innerHTML='<div class="empty"><big>♥</big>No memories here yet.'+(authed?' Tap “Add photos” to pin the first one.':'')+'</div>';return}
+var s=await sb.storage.from("photos").createSignedUrls(rows.map(function(p){return p.path}),3600),u={};(s.data||[]).forEach(function(x){u[x.path]=x.signedUrl});
+rows.forEach(function(p,k){p.url=u[p.path]||"";items.push(p);var f=document.createElement("figure");f.className="ph";
+var im=new Image();im.loading="lazy";im.alt=p.caption||"Family photo";im.onload=function(){setTimeout(function(){f.classList.add("in")},Math.min(k*40,400))};im.onerror=function(){f.classList.add("in")};im.src=p.url;f.appendChild(im);
+var o=document.createElement("div");o.className="ov";o.textContent=p.caption||"";f.appendChild(o);
+if(authed&&!p.is_public){var l=document.createElement("span");l.className="lk";l.textContent="🔒 Family";f.appendChild(l)}
+if(authed){var x=document.createElement("button");x.className="x";x.textContent="×";x.title="Remove";x.onclick=async function(e){e.stopPropagation();if(confirm("Remove this photo for everyone?")){await sb.storage.from("photos").remove([p.path]);await sb.from("photos").delete().eq("id",p.id);render()}};f.appendChild(x)}
+f.onclick=function(){look(k)};w.appendChild(f)})}
+function look(i){idx=(i+items.length)%items.length;var p=items[idx];$("big").src=p.url;$("lbc").textContent=p.caption||"";if(!$("lb").open)$("lb").showModal()}
+$("pv").onclick=function(e){e.stopPropagation();look(idx-1)};$("nx").onclick=function(e){e.stopPropagation();look(idx+1)};$("cx").onclick=function(){$("lb").close()};
+$("lb").onclick=function(e){if(e.target===this)this.close()};
+document.addEventListener("keydown",function(e){if(!$("lb").open)return;if(e.key==="ArrowLeft")look(idx-1);if(e.key==="ArrowRight")look(idx+1)});
+var tx=0;$("lb").addEventListener("touchstart",function(e){tx=e.touches[0].clientX},{passive:true});$("lb").addEventListener("touchend",function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)look(idx+(d<0?1:-1))});
+$("fab").onclick=function(){$("file").click()};
+$("file").onchange=function(e){pending=[].slice.call(e.target.files);if(!pending.length)return;var a=$("alb");a.innerHTML="";ALBUMS.filter(function(x){return x!=="All"}).forEach(function(x){var o=document.createElement("option");o.textContent=x;a.appendChild(o)});a.value=cur==="All"?"Family":cur;$("cap").value="";$("ue").textContent="";$("upn").textContent=pending.length+(pending.length===1?" photo":" photos")+" selected";$("ub").disabled=false;$("up").showModal();e.target.value=""};
+$("uc").onclick=function(){$("up").close()};
+$("uf").onsubmit=async function(e){e.preventDefault();var ub=$("ub");ub.disabled=true;var pub=document.querySelector('input[name=v]:checked').value==="1",fails=0;
+for(var i=0;i<pending.length;i++){ub.textContent="Uploading "+(i+1)+"/"+pending.length+"…";var b=await shrink(pending[i]),path=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+i)+".jpg";
+var r=await sb.storage.from("photos").upload(path,b,{contentType:"image/jpeg"});if(r.error){fails++;continue}
+await sb.from("photos").insert({path:path,caption:$("cap").value,album:$("alb").value,is_public:pub})}
+ub.textContent="Upload";$("up").close();if(fails)alert(fails+" photo(s) failed to upload.");render()};
+function show(on){authed=on;$("fab").style.display=on?"flex":"none";$("out").textContent=on?"Log out":"Family login";nav();render()}
+$("lf").onsubmit=async function(e){e.preventDefault();var r=await sb.auth.signInWithPassword({email:$("em").value,password:$("pw").value});if(r.error)$("err").textContent="Wrong email or password";else{$("lg").close();$("pw").value="";$("err").textContent="";show(true)}};
+$("lc").onclick=function(){$("lg").close()};
+$("out").onclick=async function(){if(authed){await sb.auth.signOut();show(false)}else $("lg").showModal()};
 sb.auth.getSession().then(function(r){show(!!r.data.session)});
 </script></body></html>
