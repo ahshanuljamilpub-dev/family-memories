@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Our Family Memories</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf1ea;--ink:#4a2b33;--rose:#c2576b;--gold:#c99a4b;--card:#fffaf6;--shadow:rgba(74,43,51,.25);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1217;--ink:#f6e3e0;--rose:#e58a9b;--gold:#e0b46a;--card:#2c1b22;--shadow:rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{--bg:#1d1217;--ink:#f6e3e0;--rose:#e58a9b;--gold:#e0b46a;--card:#2c1b22;--shadow:rgba(0,0,0,.6)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(circle at 20% 0,rgba(194,87,107,.18),transparent 45%),radial-gradient(circle at 90% 30%,rgba(201,154,75,.18),transparent 40%),var(--bg);color:var(--ink);font-family:'Playfair Display',Georgia,serif;min-height:100vh}
+header{text-align:center;padding:44px 16px 10px}
+h1{font-size:clamp(2rem,7vw,3.6rem);margin:0;font-weight:600}
+h1 em{color:var(--rose);font-weight:400}
+.sub{font-family:'Caveat',cursive,sans-serif;font-size:1.5rem;color:var(--gold);margin:6px 0 0}
+.heart{display:block;margin:14px auto 0;width:140px;height:14px;background:linear-gradient(90deg,transparent,var(--gold),transparent);height:1px;position:relative}
+.heart:after{content:"♥";position:absolute;left:50%;top:-12px;transform:translateX(-50%);color:var(--rose);background:var(--bg);padding:0 8px}
+nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:22px 12px 6px}
+nav button,.add{font:inherit;border:1px solid var(--rose);color:var(--rose);background:transparent;border-radius:999px;padding:8px 18px;cursor:pointer;transition:.2s}
+nav button.on,.add{background:var(--rose);color:#fff}
+.add{display:inline-block;font-size:1rem}
+.bar{text-align:center;padding:10px}
+.wall{max-width:1100px;margin:0 auto;padding:20px 14px 70px;display:flex;flex-wrap:wrap;gap:26px;justify-content:center}
+.pol{background:var(--card);padding:12px 12px 14px;width:230px;box-shadow:0 10px 24px var(--shadow);transform:rotate(var(--r));transition:.3s;cursor:pointer;position:relative}
+.pol:nth-child(3n){--r:2.5deg}.pol:nth-child(3n+1){--r:-2deg}.pol:nth-child(3n+2){--r:1deg}
+.pol:hover{transform:rotate(0) scale(1.06) translateY(-4px);z-index:2}
+.pol img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:2px}
+.cap{font-family:'Caveat',cursive,sans-serif;font-size:1.35rem;text-align:center;margin-top:8px;min-height:1.6em}
+.tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-3deg);background:rgba(201,154,75,.55);width:70px;height:20px}
+.pol .x{position:absolute;right:6px;top:4px;border:0;background:none;color:var(--rose);font-size:1.3rem;cursor:pointer;opacity:0}
+.pol:hover .x{opacity:1}
+.empty{text-align:center;font-style:italic;opacity:.7;padding:50px 20px;width:100%}
+dialog{border:0;background:transparent;max-width:92vw;padding:0}
+dialog::backdrop{background:rgba(20,8,12,.85)}
+dialog img{max-width:90vw;max-height:80vh;border:10px solid var(--card);box-shadow:0 20px 60px #000}
+dialog p{font-family:'Caveat',cursive;color:#fff;font-size:1.8rem;text-align:center;margin:8px}
+.petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.petals i{position:absolute;top:-20px;color:var(--rose);opacity:.35;animation:fall linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+header,nav,.bar,.wall{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.petals{display:none}}
+</style></head><body>
+<div class="petals" id="petals"></div>
+<header><h1>Our <em>Little World</em></h1><p class="sub">Me, my love, and our daughters</p><span class="heart"></span></header>
+<nav id="nav"></nav>
+<div class="bar"><label class="add">＋ Add photos<input id="file" type="file" accept="image/*" multiple hidden></label></div>
+<main class="wall" id="wall"></main>
+<dialog id="dlg"><img id="big" alt=""><p id="bigcap"></p></dialog>
+<script>
+var ALBUMS=["All","Us Two","My Wife","Our Daughters","Family"],cur="All",db=null,mem=[];
+function open_(){return new Promise(function(res){try{var r=indexedDB.open("family-memories",1);r.onupgradeneeded=function(){r.result.createObjectStore("p",{keyPath:"id"})};r.onsuccess=function(){db=r.result;res()};r.onerror=function(){res()}}catch(e){res()}})}
+function all(){return new Promise(function(res){if(!db)return res(mem);try{var q=db.transaction("p").objectStore("p").getAll();q.onsuccess=function(){res(q.result.concat(mem))};q.onerror=function(){res(mem)}}catch(e){res(mem)}})}
+function put(o){if(!db){mem.push(o);return Promise.resolve()}return new Promise(function(res){try{var t=db.transaction("p","readwrite");t.objectStore("p").put(o);t.oncomplete=res;t.onerror=res}catch(e){mem.push(o);res()}})}
+function del(id){mem=mem.filter(function(m){return m.id!==id});if(!db)return Promise.resolve();return new Promise(function(res){try{var t=db.transaction("p","readwrite");t.objectStore("p").delete(id);t.oncomplete=res;t.onerror=res}catch(e){res()}})}
+function shrink(f){return new Promise(function(res){var r=new FileReader();r.onload=function(){var i=new Image();i.onload=function(){var s=Math.min(1,1400/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.85))};i.src=r.result};r.readAsDataURL(f)})}
+function nav(){var n=document.getElementById("nav");n.innerHTML="";ALBUMS.forEach(function(a){var b=document.createElement("button");b.textContent=a;if(a===cur)b.className="on";b.onclick=function(){cur=a;nav();render()};n.appendChild(b)})}
+async function render(){var w=document.getElementById("wall"),l=(await all()).filter(function(p){return cur==="All"||p.album===cur}).sort(function(a,b){return b.id-a.id});w.innerHTML="";
+if(!l.length){w.innerHTML='<div class="empty">No memories here yet — tap “Add photos” to pin the first one ♥</div>';return}
+l.forEach(function(p){var d=document.createElement("div");d.className="pol";d.innerHTML='<span class="tag"></span><button class="x" title="Remove">×</button><img alt=""><div class="cap"></div>';d.querySelector("img").src=p.src;d.querySelector(".cap").textContent=p.cap||"";
+d.onclick=function(){document.getElementById("big").src=p.src;document.getElementById("bigcap").textContent=p.cap||"";document.getElementById("dlg").showModal()};
+d.querySelector(".x").onclick=async function(e){e.stopPropagation();if(confirm("Remove this photo?")){await del(p.id);render()}};w.appendChild(d)})}
+document.getElementById("dlg").onclick=function(){this.close()};
+document.getElementById("file").onchange=async function(e){var fs=[].slice.call(e.target.files),a=cur==="All"?"Family":cur;
+for(var i=0;i<fs.length;i++){var c=prompt("Caption for "+fs[i].name+" (optional)","")||"";await put({id:Date.now()+i,src:await shrink(fs[i]),cap:c,album:a})}
+e.target.value="";render()};
+(function(){var p=document.getElementById("petals");for(var i=0;i<14;i++){var s=document.createElement("i");s.textContent="♥";s.style.left=Math.random()*100+"%";s.style.fontSize=10+Math.random()*14+"px";s.style.animationDuration=12+Math.random()*14+"s";s.style.animationDelay=-Math.random()*20+"s";p.appendChild(s)}})();
+nav();open_().then(render);
+</script></body></html>
